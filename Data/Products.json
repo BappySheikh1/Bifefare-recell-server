@@ -1,0 +1,92 @@
+[
+    {
+      "category_id": "1",
+      "img": "https://i.ibb.co/wMpQCZz/bee-eaters-with-multicolored-feathers-   sitting-tree-branch.jpg",
+      "name": "The Bird",
+      "original_price": 400,
+      "location": "",
+      "resel_price": 600,
+      "used": 3,
+      "date": -2007
+    },
+    {
+      "category_id": "1",
+      "img": "https://i.ibb.co/wMpQCZz/bee-eaters-with-multicolored-feathers-   sitting-tree-branch.jpg",
+      "name": "The Bird",
+      "original_price": 400,
+      "location": "",
+      "resel_price": 600,
+      "used": 3,
+      "date": -2007
+    },
+    {
+      "category_id": "1",
+      "img": "https://i.ibb.co/wMpQCZz/bee-eaters-with-multicolored-feathers-   sitting-tree-branch.jpg",
+      "name": "The Bird",
+      "original_price": 400,
+      "location": "",
+      "resel_price": 600,
+      "used": 3,
+      "date": -2007
+    },
+    {
+      "category_id": "2",
+      "img": "https://i.ibb.co/wMpQCZz/bee-eaters-with-multicolored-feathers-   sitting-tree-branch.jpg",
+      "name": "The Bird",
+      "original_price": 400,
+      "location": "",
+      "resel_price": 600,
+      "used": 3,
+      "date": -2007
+    },
+    {
+      "category_id": "2",
+      "img": "https://i.ibb.co/wMpQCZz/bee-eaters-with-multicolored-feathers-   sitting-tree-branch.jpg",
+      "name": "The Bird",
+      "original_price": 400,
+      "location": "",
+      "resel_price": 600,
+      "used": 3,
+      "date": -2007
+    },
+    {
+      "category_id": "2",
+      "img": "https://i.ibb.co/wMpQCZz/bee-eaters-with-multicolored-feathers-   sitting-tree-branch.jpg",
+      "name": "The Bird",
+      "original_price": 400,
+      "location": "",
+      "resel_price": 600,
+      "used": 3,
+      "date": -2007
+    },
+    {
+      "category_id": "3",
+      "img": "https://i.ibb.co/wMpQCZz/bee-eaters-with-multicolored-feathers-   sitting-tree-branch.jpg",
+      "name": "The Bird",
+      "original_price": 400,
+      "location": "",
+      "resel_price": 600,
+      "used": 3,
+      "date": -2007
+    },
+    {
+      "category_id": "3",
+      "img": "https://i.ibb.co/wMpQCZz/bee-eaters-with-multicolored-feathers-   sitting-tree-branch.jpg",
+      "name": "The Bird",
+      "original_price": 400,
+      "location": "",
+      "resel_price": 600,
+      "used": 3,
+      "date": -2007
+    },
+    {
+      "category_id": "3",
+      "img": "https://i.ibb.co/wMpQCZz/bee-eaters-with-multicolored-feathers-   sitting-tree-branch.jpg",
+      "name": "The Bird",
+      "original_price": 400,
+      "location": "",
+      "resel_price": 600,
+      "used": 3,
+      "date": -2007
+    }
+  ]
