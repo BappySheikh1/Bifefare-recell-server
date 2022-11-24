@@ -36,9 +36,17 @@ async function run(){
      })
 
     //  My Orders Data
+   app.get('/bookedItem',async (req,res)=>{
+    const email=req.query.email
+    console.log(email);
+    const query ={email: email}
+    const result=await bookedItemCollection.find(query).toArray()
+    res.send(result)
+   })
+
     app.post('/bookedItem',async (req,res)=>{
         const user =req.body
-        console.log(user);
+        // console.log(user);
         const result =await bookedItemCollection.insertOne(user)
         res.send(result)
     })
@@ -46,9 +54,11 @@ async function run(){
 
 
     // UserData
+    
     app.post('/users',async(req,res)=>{
       const user =req.body;
-      console.log(user);
+      const result =await usersCollection.insertOne(user)
+      res.send(result)
     })
    
     }
