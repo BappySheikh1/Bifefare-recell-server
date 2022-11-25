@@ -62,6 +62,12 @@ async function run(){
         res.send(result)
      })
 
+    //  Add a Product category
+    app.post("/addProduct_Category",async(req,res)=>{
+        const user =req.body
+        console.log(user);
+    })
+
     //  My Orders Data
    app.get('/bookedItem',jwtVerify,async (req,res)=>{
     const email=req?.query?.email
@@ -97,6 +103,29 @@ async function run(){
       res.send(result)
     })
    
+    // User make admin
+    app.put('/users/admin/:id',jwtVerify,async(req,res)=>{
+      const decodedEmail =req.decoded.email
+      console.log(decodedEmail);
+      const query ={email : decodedEmail}
+      const user =await usersCollection.findOne(query)
+      if(user?.role !== "Admin"){
+        return res.status(403).send({message: "Forbidden access"})
+        }
+
+        const id =req.params.id
+        const filter={_id : ObjectId(id)}
+        const options ={ upsert: true }
+        const updateDoc={
+            $set:{
+                role: "Admin"
+            }
+        }
+        const result =await usersCollection.updateOne(filter,updateDoc,options)
+        res.send(result)
+    })
+     
+
     }
     finally{
 
