@@ -4,6 +4,7 @@ const app =express();
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config()
 var jwt = require('jsonwebtoken');
+
 const port = process.env.PORT || 4000;
 
 
@@ -103,7 +104,17 @@ async function run(){
       res.send(result)
     })
    
-    // User make admin
+
+    // User seller
+    
+    // User admin
+    app.get('/users/admin/:email',async(req,res)=>{
+      const email = req.params.email
+      const query = {email : email}
+      const user = await usersCollection.findOne(query);
+      res.send({isAdmin: user?.role === 'Admin'})
+    })
+
     app.put('/users/admin/:id',jwtVerify,async(req,res)=>{
       const decodedEmail =req.decoded.email
       console.log(decodedEmail);
