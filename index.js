@@ -63,10 +63,20 @@ async function run(){
         res.send(result)
      })
 
+    // query by name my Product
+    app.get('/addProduct_Category/:id',async (req,res)=>{
+        const sellerName =req.params.id
+        const query ={ sellerName : sellerName }
+        const result =await productsCollection.find(query).toArray()
+        res.send(result)
+    })
+
     //  Add a Product category
     app.post("/addProduct_Category",async(req,res)=>{
         const user =req.body
-        console.log(user);
+        // console.log(user);
+        const result =await productsCollection.insertOne(user)
+        res.send(result)
     })
 
     //  My Orders Data
