@@ -3,6 +3,7 @@ const cors = require('cors');
 const app =express();
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config()
+var jwt = require('jsonwebtoken');
 const port = process.env.PORT || 4000;
 
 
@@ -10,7 +11,20 @@ const port = process.env.PORT || 4000;
 app.use(cors())
 app.use(express.json())
 
-
+function jwtVerify(req,res,next){
+    const authHeader= req.headers.authorization
+    if(!authHeader){
+        return res.status(401).send({message:"unauthorization access"})
+    }
+    const token =authHeader.split(' ')[1]
+    jwt.verify(token,process.env.ACCESS_JWT_TOKEN,function(err,decoded){
+        if(err){
+            return res.status(403).send({message:"Forbidden Access"})
+        }
+        req.decoded = decoded
+        next()
+    })
+}
 
 const uri = process.env.ACCESS_MONGO_URI;
 // console.log(uri);
@@ -20,8 +34,21 @@ async function run(){
      const categoryCollection =client.db('assignment12Project').collection('category')
      const productsCollection =client.db('assignment12Project').collection('categoryProducts')
      const bookedItemCollection =client.db('assignment12Project').collection('bookedItem')
-     const usersCollection =client.db('assignment12Project').collection('bookedItem')
+     const usersCollection =client.db('assignment12Project').collection('users')
       
+
+    //  jtw token 
+    app.get('/jwt', async(req,res)=>{
+        const email =req.query.email
+        const query ={email: email}
+        const user =await usersCollection.findOne(query)
+        console.log(user);
+        if(user){
+            const token =jwt.sign({email},process.env.ACCESS_JWT_TOKEN,{expiresIn:'1d'})
+            return res.send({accessToken: token})
+        }
+        res.status(403).send({message: "Forbidden Access"})
+    })
     //  category data
      app.get('/category',async (req,res)=>{
         const query ={}
@@ -36,9 +63,14 @@ async function run(){
      })
 
     //  My Orders Data
-   app.get('/bookedItem',async (req,res)=>{
-    const email=req.query.email
-    console.log(email);
+   app.get('/bookedItem',jwtVerify,async (req,res)=>{
+    const email=req?.query?.email
+    // console.log(email);
+    const decodedEmail=req?.decoded
+    // console.log(decodedEmail);
+    if( decodedEmail.email !== email){
+    return res.status(403).send({message: "Forbidden Access"})
+    }
     const query ={email: email}
     const result=await bookedItemCollection.find(query).toArray()
     res.send(result)
@@ -54,7 +86,11 @@ async function run(){
 
 
     // UserData
-    
+    app.get('/users',async(req,res)=>{
+        const query ={}
+        const result= await usersCollection.find(query).toArray()
+        res.send(result)
+    })
     app.post('/users',async(req,res)=>{
       const user =req.body;
       const result =await usersCollection.insertOne(user)
