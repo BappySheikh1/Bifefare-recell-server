@@ -106,7 +106,20 @@ async function run(){
    
 
     // User seller
-    
+    app.get('/users/seller/:email',async (req,res)=>{
+        const email =req.params.email
+        const query ={email: email}
+        const user =await usersCollection.findOne(query)
+        res.send({isSeller : user?.select === "Seller"})
+    })
+
+    //user buyer 
+    app.get('/users/buyer/:email',async (req,res)=>{
+        const email =req.params.email
+        const query ={email: email}
+        const user =await usersCollection.findOne(query)
+        res.send({isBuyer : user?.select === "Buyer"})
+    })
     // User admin
     app.get('/users/admin/:email',async(req,res)=>{
       const email = req.params.email
@@ -117,7 +130,7 @@ async function run(){
 
     app.put('/users/admin/:id',jwtVerify,async(req,res)=>{
       const decodedEmail =req.decoded.email
-      console.log(decodedEmail);
+    //   console.log(decodedEmail);
       const query ={email : decodedEmail}
       const user =await usersCollection.findOne(query)
       if(user?.role !== "Admin"){
