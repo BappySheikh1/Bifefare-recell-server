@@ -63,6 +63,20 @@ async function run(){
         res.send(result)
      })
 
+    //  Product advertised put
+   app.put('/advertised/:id',async(req,res)=>{
+    const id =req.params.id
+    const query ={_id : ObjectId(id)}
+    const options ={ upsert: true }
+    const UpdateDoc ={
+        $set:{
+            status: "advertised"
+        }
+    }
+    const result= await productsCollection.updateOne(query,UpdateDoc,options)
+    res.send(result)
+   })
+
     // query by name my Product
     app.get('/myProduct',async (req,res)=>{
         const displayName = req.query.displayName
