@@ -108,11 +108,24 @@ async function run(){
     //     const result= await usersCollection.find(query).toArray()
     //     res.send(result)
     // })
+    app.delete('/userRole/seller/:id',async(req,res)=>{
+        const id =req.params.id
+        const query ={_id: ObjectId(id)}
+        const result =await usersCollection.deleteOne(query)
+        res.send(result)
+        })
 
     app.get('/userRole/seller',async (req,res)=>{
         const query ={select : "Seller"}
         const sellerResult =await usersCollection.find(query).toArray()
         res.send(sellerResult)
+    })
+    
+    app.delete('/userRole/buyer/:id',async(req,res)=>{
+    const id =req.params.id
+    const query ={_id: ObjectId(id)}
+    const result =await usersCollection.deleteOne(query)
+    res.send(result)
     })
 
     app.get('/userRole/buyer',async(req,res)=>{
