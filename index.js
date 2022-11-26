@@ -103,10 +103,22 @@ async function run(){
 
 
     // UserData
-    app.get('/users',async(req,res)=>{
-        const query ={}
-        const result= await usersCollection.find(query).toArray()
-        res.send(result)
+    // app.get('/users',async(req,res)=>{
+    //     const query ={}
+    //     const result= await usersCollection.find(query).toArray()
+    //     res.send(result)
+    // })
+
+    app.get('/userRole/seller',async (req,res)=>{
+        const query ={select : "Seller"}
+        const sellerResult =await usersCollection.find(query).toArray()
+        res.send(sellerResult)
+    })
+
+    app.get('/userRole/buyer',async(req,res)=>{
+        const filter ={select : "Buyer"}
+        const buyerResult = await usersCollection.find(filter).toArray()
+        res.send(buyerResult)
     })
     app.post('/users',async(req,res)=>{
       const user =req.body;
