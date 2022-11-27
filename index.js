@@ -112,7 +112,12 @@ async function run(){
     const result =await productsCollection.find(filter).toArray()
     res.send(result)
    })
-
+    app.delete('/reported/:id',async(req,res)=>{
+        const id = req.params.id
+        const query ={_id : ObjectId(id)}
+        const result =await productsCollection.deleteOne(query)
+        res.send(result)
+    })
     app.put('/reported/:id',async(req,res)=>{
         const id =req.params.id
         const query = {_id: ObjectId(id)}
@@ -192,6 +197,23 @@ app.post('/payments',async(req,res)=>{
     //     const result= await usersCollection.find(query).toArray()
     //     res.send(result)
     // })
+
+  // seller Register Now
+  app.put('/users/seller/:sellerName',async (req,res)=>{
+    const sellerName =req.params.sellerName
+    const filter ={sellerName: sellerName}
+    const options ={upsert: true}
+    const UpdateDoc ={
+        $set:{
+           user_verify : "verified"
+        }
+    }
+    const result =await productsCollection.updateOne(filter,UpdateDoc,options)
+    const UpdateSeller =await usersCollection.updateOne(filter,UpdateDoc,options)
+    res.send(result)
+  })   
+
+
     app.delete('/userRole/seller/:id',async(req,res)=>{
         const id =req.params.id
         const query ={_id: ObjectId(id)}
