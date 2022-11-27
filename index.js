@@ -106,6 +106,26 @@ async function run(){
         res.send(result)
     })
 
+    // Reported Product
+   app.get('/product_report',async(req,res)=>{
+    const filter ={product_report : "reported"}
+    const result =await productsCollection.find(filter).toArray()
+    res.send(result)
+   })
+
+    app.put('/reported/:id',async(req,res)=>{
+        const id =req.params.id
+        const query = {_id: ObjectId(id)}
+        const options = {upsert: true}
+        const UpdateDoc ={
+            $set:{
+                product_report:"reported"
+            }
+        }
+        const result =await productsCollection.updateOne(query,UpdateDoc,options)
+        res.send(result)
+    })
+
     //  My Orders Data
    app.get('/bookedItem',jwtVerify,async (req,res)=>{
     const email=req?.query?.email
