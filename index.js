@@ -244,6 +244,14 @@ app.post('/payments',async(req,res)=>{
       const result =await usersCollection.insertOne(user)
       res.send(result)
     })
+
+
+    app.post('/users/social',async(req,res)=>{
+        const user =res.body;
+        // console.log(user);
+        // const result =await usersCollection.insertOne(user)
+        // res.send(result)
+    })
    
 
     // User seller
