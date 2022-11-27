@@ -4,7 +4,7 @@ const app =express();
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config()
 var jwt = require('jsonwebtoken');
-
+const stripe =require("stripe")(process.env.STRIPE_SECRET_KEY)
 const port = process.env.PORT || 4000;
 
 
@@ -35,6 +35,7 @@ async function run(){
      const categoryCollection =client.db('assignment12Project').collection('category')
      const productsCollection =client.db('assignment12Project').collection('categoryProducts')
      const bookedItemCollection =client.db('assignment12Project').collection('bookedItem')
+     const paymentsCollection =client.db('assignment12Project').collection('payments')
      const usersCollection =client.db('assignment12Project').collection('users')
       
 
@@ -118,14 +119,51 @@ async function run(){
     const result=await bookedItemCollection.find(query).toArray()
     res.send(result)
    })
-
+   
+   app.get('/bookedItem/:id',async(req,res)=>{
+    const id =req.params.id
+    const query ={_id: ObjectId(id)}
+    const result =await bookedItemCollection.findOne(query)
+    res.send(result)
+   })
     app.post('/bookedItem',async (req,res)=>{
         const user =req.body
         // console.log(user);
         const result =await bookedItemCollection.insertOne(user)
         res.send(result)
     })
+//    booked product payment stripe
+app.post('/create-payment-intent',async(req,res)=>{
+    const bookedItem=req?.body;
+    const price =bookedItem?.price;
+    const amount = price * 100;
 
+    const paymentIntent =await stripe?.paymentIntents?.create({
+         currency: 'usd',
+                amount: amount ,
+                "payment_method_types": [
+                    "card"
+                  ],
+    })
+    res.send({
+        clientSecret: paymentIntent.client_secret,
+      });
+})
+
+app.post('/payments',async(req,res)=>{
+    const payment =req.body
+    const result = await paymentsCollection.insertOne(payment);
+    const id =payment.bookedItemId
+    const filter ={_id : ObjectId(id)}
+    const updateDoc={
+        $set:{
+            paid : true,
+            transactionId: payment.transactionId
+        }
+    }
+    const updateResult =await bookedItemCollection.updateOne(filter,updateDoc)
+    res.send(result)
+})
 
 
     // UserData
